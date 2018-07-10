@@ -1,13 +1,9 @@
 <template>
     <div>
-        <h1>{{article.create_time}}</h1>
+        <h1>{{ formatDate(article.create_time) }}</h1>
         <div class="article">
         <h1>{{article.title}}</h1>
-        <div class="ql-container ql-snow" style="border:none">
-            <div class="ql-editor">
-                <div v-html="article.content"></div>
-            </div>
-        </div>
+        <p v-html="compileMarkdown" v-highlight></p>
         <hr>
         <el-tag type="success">{{article.author}}</el-tag>
     </div>
@@ -17,7 +13,10 @@
 
 <script>
 import axios from 'axios'
-
+import marked from 'marked'
+import hljs from 'highlight.js'
+import {formatDate} from '@/utils.js'
+ 
 export default {
     data(){
         return{
@@ -33,6 +32,17 @@ export default {
             }).catch(err=>{
                 console.log(err)
             })
+    },
+    components: {
+        marked
+    },
+    methods: {
+        formatDate
+    },
+    computed: {
+        compileMarkdown:function(){
+            return marked(this.article.content,{sanitize: true})
+        }
     }
 }
 </script>
@@ -42,7 +52,7 @@ export default {
         background-color:#fff;
         border-radius: 3px;
         border: 1px solid #e1e1e1;
-        padding: 12px;
+        padding: 24px;
         box-shadow: 1px;
     }
 </style>

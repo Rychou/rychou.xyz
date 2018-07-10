@@ -1,54 +1,69 @@
 <template>
-<div>
-  <el-card>
-    <div slot="header">
-      <span>
-        文章
-      </span>
-    </div>
-    <div>
-      <div >
-          <el-row>
-            <el-col :span="6" v-for="(article,index) in ArticleList" :key="index" :offset="1" style="margin-top:16px">
-              <el-card :body-style="{ padding: '0px' ,height:'400px'}">
-                <img class="image" src="https://s1.ax1x.com/2018/06/13/COgWHH.jpg" alt="">
-                <div style="padding: 14px;">
-                  <router-link :to="{path:'/article/'+article.id,params:{id:article.id}}">{{article.title}}</router-link>
-                  <div class="bottom clearfix">
-                    <time class="time">{{ article.create_time }}</time>
+  <div>
+      <div v-for="(article,index) in ArticleList" :key="index" >
+        <div class="card">
+                <el-card :body-style="{ padding: '10px' }">
+                  <div slot="header" class="clearfix">
+                    <router-link :to="{path:'/article/'+article.id,params:{id:article.id}}"><strong>{{article.title}}</strong></router-link>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
                   </div>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
+                  <div style="padding: 14px;">
+                    <div class="ql-container ql-snow" style="border:none">
+                        <div class="ql-editor">
+                            <div class="article-content" v-html="article.content">{{getContent(index)}}</div>
+                        </div>
+                    </div>
+                    <router-link :to="{path:'/article/'+article.id,params:{id:article.id}}"><el-button class="readmore" type="info" round size="mini">Read More</el-button></router-link>
+                    <hr>
+                    <div class="bottom clearfix">
+                      <el-tag size="mini">{{article.author}}</el-tag>
+                      <el-tag  size="mini" type="info">{{ formatDate(article.create_time) }}</el-tag>
+                    </div>
+                  </div>
+                </el-card>
+        </div>
       </div>
-    </div>
-  </el-card>
-</div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
-
+import marked from 'marked'
+import {formatDate} from '../utils.js'
 export default {
     data () {
     return {
       ArticleList:[]
-          }
+    }
   },
-  mounted(){
+  methods: {
+    getContent(index){
+      let content=this.ArticleList[index].content
+      let len=content.length
+      if(len>200)
+        this.ArticleList[index].content=content.substr(content,200)+'...'
+    },
+    formatDate
+  },
+  created () {
     axios.get('http://120.79.88.123:8000/article/getArticleList')
             .then(response=>{
                 this.ArticleList=[...response.data]
-                console.log(this.ArticleList)
+                 for(var i in this.ArticleList){
+                  this.ArticleList[i].content=marked(this.ArticleList[i].content,{sanitize: true})
+                }
             }).catch(err=>{
                 console.log(err)
         })
+   
   },
+  components: {
+        marked
+    },
 }
 </script>
 
-<style>
+<style scoped>
   .time {
     font-size: 13px;
     color: #999;
@@ -79,6 +94,22 @@ export default {
   .clearfix:after {
       clear: both
   }
+  .card{
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .article-content{
+    overflow: hidden;
+    word-wrap:break-word;
+    white-space: pre-wrap;
+  }
+
+  .readmore{
+    background: #eeeeee;
+    border: none;
+    color: gray
+  }
+  
 </style>
 
 

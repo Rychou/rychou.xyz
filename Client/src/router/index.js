@@ -5,6 +5,7 @@ import NewArticle from '@/components/backend/NewArticle'
 import ArticleList from '@/components/ArticleList'
 import Article from '@/components/Article'
 import BackendHome from '@/components/backend/BackendHome'
+import EditArticle from '@/components/backend/EditArticle'
 Vue.use(Router)
 
 export default new Router({
@@ -24,14 +25,18 @@ export default new Router({
           component: Article
         },
         {
+          path:'/backend',
+          component:BackendHome
+        },
+        {
           path:'/backend/newArticle',
           name:'newArticle',
           component: NewArticle
         },
         {
-          path:'/backend',
-          component:BackendHome
-        }
+          path:'/backend/editArticle/:id',
+          component: EditArticle
+        },
       ]
     },
   ]
