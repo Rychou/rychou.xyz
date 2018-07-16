@@ -1,6 +1,6 @@
 <template>
     <div id="editor">
-            <mavon-editor style="height: 100%" v-model="content" @input="setContent"></mavon-editor>
+            <mavon-editor style="height: 100%" v-model="editorContent" @input="setContent"></mavon-editor>
         </div>
 </template>
 
@@ -15,13 +15,22 @@ export default {
     props:['content'],
     data () {
         return {
-            content:this.content
         }
+    },
+    computed: {
+      editorContent:{
+          get:function(){
+              return this.content
+          },
+          set:function(){
+              
+          }
+      }  
     },
     methods: {
         setContent:function(){
-            console.log(this.content)
-            this.$emit('transferContent',this.content)
+            console.log(this.editorContent)
+            this.$emit('transferContent',this.editorContent)
         }
     }
 }

@@ -5,12 +5,19 @@
                 <el-input
                     placeholder="请输入标题"
                     v-model="form.title"
-                    autofocus
+                    :autofocus="true"
                     clearable>
                 </el-input>
             </el-form-item>
             <el-form-item label="文章内容" prop="content">
-                <editor @transferContent='getContent'></editor>
+                <mavon-editor 
+                    style="height: 580px" 
+                    v-model="form.content"
+                    :boxShadow="false"
+                    ></mavon-editor>
+            </el-form-item> 
+            <el-form-item label="添加标签" prop="tags">
+                <add-tags @setTags="getTags" :tags="this.form.tags"></add-tags>
             </el-form-item> 
             <el-form-item>
                 <el-button @click="submitForm('form')">发布</el-button>
@@ -21,14 +28,17 @@
 
 <script>
 import Editor from './Editor.vue'
+import AddTags from './NewArticle/AddTags.vue'
 import axios from 'axios'
+import { mavonEditor } from 'mavon-editor'
 
 export default {
     data() {
        return {
             form:{
                 title:'',
-                content: ''
+                content: '',
+                tags:[]
             },
             rules:{
                 title:[
@@ -36,16 +46,19 @@ export default {
                 ],
                 content:[
                     {required:true,message:'请输入内容'}
+                ],
+                tags:[
+                    {required:true,message:'请输入标签',trigger: 'blur'}
                 ]
             }
        }
      },
     components: {
-      editor:Editor
+      editor:Editor,AddTags,mavonEditor
    },
     methods: {
         submitForm(formName) {
-          console.log(this.form.content)
+          console.log(this.form.tags)
           this.$refs[formName].validate((valid) => {
           if (valid) {
               axios({
@@ -55,13 +68,20 @@ export default {
                         title:this.form.title,
                         content:this.form.content,
                         create_time:new Date(),
-                        tags:'',
+                        tags:this.form.tags.join(','),
                         author:'rychou'
                     }
                 }).then(response=>{
                     if (response.data.insertState){
-                        alert('发布成功!');
-                    }else alert('发布失败!');
+                        this.$message({
+                            message:'发布成功',
+                            type:'success'
+                        })
+                        this.$router.push('/')
+                    }else this.$message({
+                            message:'发布成功',
+                            type:'warning'
+                        })
                 }).catch(err=>{
                     console.log(err)
                 })
@@ -71,10 +91,10 @@ export default {
           }
         })
         },
-        getContent(msg){
-            console.log('msg:'+msg)
-            this.form.content=msg
-            console.log('this.content:'+this.form.content)
+        getTags(tags){
+            console.log('tags'+tags)
+            this.form.tags=[...tags]
+            console.log(this.form.tags)
         }
 }
 }

@@ -11,17 +11,21 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+  $color:#33a3dc;
   *{
     font-family: ' -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif';
+  }
+  h1{
+    font-size: 24px;
   }
   html,body,#app{
     margin: 0;
     height: 100%;
   }
   a{ 
-  text-decoration:none; 
-  color:#333; 
+    color: #000;
+    text-decoration:none; 
   }
   blockquote{
     margin: 0;
@@ -30,9 +34,10 @@ export default {
     background: rgb(231, 231, 231);
     border-left:10px solid rgb(172, 172, 172);
     font-size: 14px;
+    color: gray
   }
   code{
-    padding: 10px;
+    padding: 16px;
     border-radius: 5px;
   }
   

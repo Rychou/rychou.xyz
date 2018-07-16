@@ -4,8 +4,9 @@
         <div class="card">
                 <el-card :body-style="{ padding: '10px' }">
                   <div slot="header" class="clearfix">
-                    <router-link :to="{path:'/article/'+article.id,params:{id:article.id}}"><strong>{{article.title}}</strong></router-link>
-                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                    <h1>
+                      <router-link :to="{path:'/article/'+article.id,params:{id:article.id}}">{{article.title}}</router-link>
+                    </h1>
                   </div>
                   <div style="padding: 14px;">
                     <div class="ql-container ql-snow" style="border:none">
@@ -105,9 +106,12 @@ export default {
   }
 
   .readmore{
-    background: #eeeeee;
+    background: #33a3dc;
     border: none;
-    color: gray
+    color: #fff
+  }
+  .readmore:hover{
+    background: #2c86b3
   }
   
 </style>

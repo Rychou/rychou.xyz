@@ -22,11 +22,11 @@
       </el-submenu>
       <el-menu-item index="3" disabled>消息中心</el-menu-item>
       <el-menu-item index="4"><router-link to="/backend">后台管理</router-link></el-menu-item>
-      <el-button>
-        <router-link to="/backend/newArticle">
+      <router-link to="/backend/newArticle">
+        <el-button>
           写文章
-        </router-link>
-      </el-button>
+        </el-button>
+      </router-link>
     </el-menu>
 </template>
 
