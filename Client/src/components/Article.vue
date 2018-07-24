@@ -11,6 +11,7 @@
                 </span>
             </div>
             <hr>
+            <br>
             <div class="article-body" v-html="compileMarkdown" v-highlight></div>
         </div>
     </div>
@@ -20,9 +21,8 @@
 <script>
 import axios from 'axios'
 import marked from 'marked'
-import hljs from 'highlight.js'
 import {formatDate} from '@/utils.js'
-import 'highlight.js/styles/monokai.css'
+import 'highlight.js/styles/vs2015.css'
  
 export default {
     data(){
@@ -74,6 +74,16 @@ export default {
                 width: 100%;
             }
             a{color: $color}
+            table
+            {
+                border-collapse:collapse;
+            }
+            th{background-color: $color;}
+            td{background-color: #eeeeee;padding: 0 12px;}
+            table,th,td{
+                border: 1px solid gray;
+                    
+            }
         }
     }
 </style>

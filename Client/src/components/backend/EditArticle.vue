@@ -67,7 +67,7 @@ export default {
                         id:this.$route.params.id,
                         title:this.form.title,
                         content:this.form.content,
-                        create_time:new Date(),
+                        create_time:this.form.create_time,
                         tags:this.form.tags.join(','),
                         author:'rychou'
                     }

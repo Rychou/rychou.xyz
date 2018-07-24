@@ -31,8 +31,8 @@ export default {
     margin: 0;
     padding: 12px 40px ;
     border-radius: 5px;
-    background: rgb(231, 231, 231);
-    border-left:10px solid rgb(172, 172, 172);
+    background: rgb(245, 245, 245);
+    border-left:10px solid rgb(199, 199, 199);
     font-size: 14px;
     color: gray
   }

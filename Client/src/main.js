@@ -9,6 +9,7 @@ import hljs from 'highlight.js'
 Vue.directive('highlight',function (el) {
   let blocks = el.querySelectorAll('pre code');
   blocks.forEach((block)=>{
+    block.className += 'js'
     hljs.highlightBlock(block)
   })
 })

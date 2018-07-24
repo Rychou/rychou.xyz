@@ -38,9 +38,6 @@ export default {
           return typeof this.tags==='undefined'?[]:this.tags
         }
     },
-    mounted () {
-      console.log(this.dynamicTags)
-    },
     methods: {
       handleClose(tag) {
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
