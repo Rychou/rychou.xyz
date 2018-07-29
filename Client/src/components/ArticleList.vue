@@ -28,92 +28,94 @@
 </template>
 
 <script>
-import axios from 'axios'
-import marked from 'marked'
-import {formatDate} from '../utils.js'
+import axios from "@/axios";
+import marked from "marked";
+import { formatDate,sortByCreateTime } from "../utils.js";
 export default {
-    data () {
+  data() {
     return {
-      ArticleList:[]
-    }
+      ArticleList: []
+    };
   },
   methods: {
-    getContent(index){
-      let content=this.ArticleList[index].content
-      let len=content.length
-      if(len>200)
-        this.ArticleList[index].content=content.substr(content,200)+'...'
+    getContent(index) {
+      let content = this.ArticleList[index].content;
+      let len = content.length;
+      if (len > 100)//缩略显示的长度
+        this.ArticleList[index].content = content.substr(content, 100) + "...";
     },
     formatDate
   },
-  created () {
-    axios.get('http://120.79.88.123:8000/article/getArticleList')
-            .then(response=>{
-                this.ArticleList=[...response.data]
-                 for(var i in this.ArticleList){
-                  this.ArticleList[i].content=marked(this.ArticleList[i].content,{sanitize: true})
-                }
-            }).catch(err=>{
-                console.log(err)
-        })
-   
+  created() {
+    axios
+      .getArticleList()
+      .then(response => {
+        this.ArticleList = response.data.sort(sortByCreateTime);
+        for (var i in this.ArticleList) {
+          this.ArticleList[i].content = marked(this.ArticleList[i].content, {
+            sanitize: true
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   components: {
-        marked
-    },
-}
+    marked
+  }
+};
 </script>
 
 <style scoped>
-  .time {
-    font-size: 13px;
-    color: #999;
-  }
-  
-  .bottom {
-    margin-top: 13px;
-    line-height: 12px;
-  }
+.time {
+  font-size: 13px;
+  color: #999;
+}
 
-  .button {
-    padding: 0;
-    float: right;
-  }
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
 
-  .image {
-    width: 100%;
-    height: 300px;
-    display: block;
-  }
+.button {
+  padding: 0;
+  float: right;
+}
 
-  .clearfix:before,
-  .clearfix:after {
-      display: table;
-      content: "";
-  }
-  
-  .clearfix:after {
-      clear: both
-  }
-  .card{
-    margin-bottom: 10px;
-    overflow: hidden;
-  }
-  .article-content{
-    overflow: hidden;
-    word-wrap:break-word;
-    white-space: pre-wrap;
-  }
+.image {
+  width: 100%;
+  height: 300px;
+  display: block;
+}
 
-  .readmore{
-    background: #33a3dc;
-    border: none;
-    color: #fff
-  }
-  .readmore:hover{
-    background: #2c86b3
-  }
-  
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+.card {
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.article-content {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.readmore {
+  background: #33a3dc;
+  border: none;
+  color: #fff;
+}
+.readmore:hover {
+  background: #2c86b3;
+}
 </style>
 
 

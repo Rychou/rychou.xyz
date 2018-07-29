@@ -29,7 +29,7 @@
 <script>
 import Editor from './Editor.vue'
 import AddTags from './NewArticle/AddTags.vue'
-import axios from 'axios'
+import axios from '@/axios'
 import { mavonEditor } from 'mavon-editor'
 
 export default {
@@ -61,16 +61,12 @@ export default {
           console.log(this.form.tags)
           this.$refs[formName].validate((valid) => {
           if (valid) {
-              axios({
-                    method:'post',
-                    url:'http://120.79.88.123:8000/newArticle',
-                    data:{
+              axios.newArticle({
                         title:this.form.title,
                         content:this.form.content,
                         create_time:new Date(),
                         tags:this.form.tags.join(','),
                         author:'rychou'
-                    }
                 }).then(response=>{
                     if (response.data.insertState){
                         this.$message({

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@/axios'
 import { mavonEditor } from 'mavon-editor'
 import AddTags from './NewArticle/AddTags.vue'
 
@@ -46,7 +46,7 @@ export default {
       mavonEditor,AddTags
     },
     created () {
-        axios.get('http://120.79.88.123:8000/article/getArticleById?id='+this.$route.params.id)
+        axios.getArticleById(this.$route.params.id)
             .then(response=>{
                 this.form=response.data
                 this.form.tags=this.form.tags.split(',')
@@ -60,17 +60,13 @@ export default {
           console.log(this.form)
           this.$refs[formName].validate((valid) => {
           if (valid) {
-              axios({
-                    method:'post',
-                    url:'http://120.79.88.123:8000/article/updateArticle',
-                    data:{
+              axios.updateArticle({
                         id:this.$route.params.id,
                         title:this.form.title,
                         content:this.form.content,
                         create_time:this.form.create_time,
                         tags:this.form.tags.join(','),
                         author:'rychou'
-                    }
                 }).then(response=>{
                     if (response.data.updateState){
                         this.$message({

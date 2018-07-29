@@ -6,7 +6,7 @@ errorHandle = (ctx, next) => {
         if (err.status === 401) {
             ctx.status = 401;
             ctx.body = {
-                error: 'token无效',
+                error: err.originalError ? err.originalError.message : err.message,
             };
         } else {
             throw err;
