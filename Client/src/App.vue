@@ -22,6 +22,7 @@ export default {
   html,body,#app{
     margin: 0;
     height: 100%;
+    background-color: #E9EEF3;
   }
   a{ 
     color: #000;

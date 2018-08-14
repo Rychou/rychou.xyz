@@ -1,9 +1,8 @@
 <template>
     <el-container>
+            <el-aside width="200px" class="aside"><my-menu></my-menu></el-aside>
             <el-container>
-              <el-header><my-menu></my-menu></el-header>
-              <el-main><router-view></router-view></el-main>
-              <el-footer>Footer</el-footer>
+              <el-main><router-view style="width:80vw"></router-view></el-main>
             </el-container>
     </el-container>
 </template>
@@ -23,9 +22,6 @@ export default {
   .el-header,.el-main,.el-footer{
     padding:0 200px;
   }
-  .el-container{
-    height: 100%;
-  }
   .el-header, .el-footer {
     background-color: #545c64;
     color: #333;
@@ -33,13 +29,16 @@ export default {
     line-height: 60px;
   }
   .el-container  .el-main {
-    background-color: #E9EEF3;
     color: #333;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 30px;
+    margin-left: 200px;
     overflow: visible;
   }
   body > .el-container {
     margin-bottom: 40px;
+  }
+  .aside{
+    position: fixed;
+    height: 100vh;
   }
 </style>
