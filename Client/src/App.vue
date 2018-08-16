@@ -38,8 +38,10 @@ export default {
     color: gray
   }
   code{
-    padding: 16px;
+    padding: 0 10px;
     border-radius: 5px;
+    color: #CA254E;
+    background-color: #F9F2F4
   }
   
 </style>

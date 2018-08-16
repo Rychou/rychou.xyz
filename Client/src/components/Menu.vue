@@ -12,10 +12,12 @@
           <img src="/static/img/avatar.jpg" alt="">
         </div>
         <div>
-          <span style="text-shadow:black 0.2em 0.2em 0.3em">Rychou</span>
+          <span style="text-shadow:black 0.2em 0.2em 0.3em">Rychou</span><br>
+          <span style="text-shadow:black 0.2em 0.2em 0.3em">准大三前端一枚</span>
         </div>
       </div>
       <el-menu-item index="/">首页</el-menu-item>
+      <el-menu-item ><a href="../../static/two_year/index.html">两周年</a></el-menu-item>
       <el-menu-item index="/backend">后台管理</el-menu-item>
       <el-footer>
         <a href="http://github.com/xxxsimons">
@@ -30,7 +32,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .menu{
   height: 100vh;
   text-align: center;
@@ -50,5 +52,8 @@ export default {
   height: 100px;
   border: 2px solid #fff;
   border-radius: 50%;
+}
+a{
+  color: #fff;
 }
 </style>

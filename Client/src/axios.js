@@ -14,10 +14,8 @@ var instance = axios.create({
 //request拦截器
 instance.interceptors.request.use(
   config => {
-      console.log('req->')
     //判断是否存在token，如果存在的话，则每个http header都加上token
     if (store.state.token) {
-        console.log(store.state.token)
       config.headers.Authorization = `Bearer ${store.state.token}`;
     }
     return config;

@@ -4,7 +4,7 @@
             <el-input v-model="user.userName"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="user.password"></el-input>
+            <el-input type="password"  @keyup.enter.native="submit('user')" v-model="user.password"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="pramary" @click="submit('user')">登陆</el-button>

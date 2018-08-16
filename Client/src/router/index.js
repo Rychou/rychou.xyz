@@ -57,7 +57,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('token->%o',store.state.token)
   let token = store.state.token;
   if (to.meta.requiresAuth) {
     if (token) {

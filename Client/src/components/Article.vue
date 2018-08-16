@@ -23,7 +23,18 @@ import axios from "@/axios";
 import marked from "marked";
 import { formatDate } from "@/utils.js";
 import "highlight.js/styles/vs2015.css";
+import 'gitalk/dist/gitalk.css'
+import Gitalk from 'gitalk'
 
+var gitalk = new Gitalk({
+  clientID: 'e2bd0f9b2722aec0c6ad',
+  clientSecret: '326f591db410fc7db445b26f31bec3af25a6259d',
+  repo: 'GitHub repo',
+  owner: 'GitHub repo owner',
+  admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
+  id: location.pathname,      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
+})
 export default {
   data() {
     return {
@@ -72,8 +83,10 @@ $color: #33a3dc;
   .article-description {
     color: gray;
   }
-  code {
-    padding: 16px;
+  pre{
+    code{
+      padding: 16px;
+    }
   }
   .article-body {
     img {
