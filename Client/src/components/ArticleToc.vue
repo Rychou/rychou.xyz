@@ -1,20 +1,19 @@
 <template>
   <div class="toc-container">
-    <a-anchor>
-      <a-anchor-link :href="`#toc${index}`" v-for="(item,index) in toc" :key="index" :title="item" />
-    </a-anchor>
+    <div class="toc-list">
+      <div v-for="(item,index) in toc" :key="index">
+        <a href="javascript:void(0)" @click="goAnchor(`#anchor-${index}`)" >
+          {{item}}
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { Anchor } from 'ant-design-vue'
-console.log(Anchor)
+
 export default {
   name: "article-toc",
-  components: {
-    'AAnchor':Anchor,
-    'AAnchorLink':Anchor.Link
-  },
   data() {
     return {
       toc: []
@@ -28,9 +27,15 @@ export default {
       let toc = document.querySelectorAll(".article-body h1");
       console.log(toc);
       toc.forEach((element,index) => {
-        element.id = 'toc'+index
+        element.id = 'anchor-'+index
         this.toc.push(element.innerText);
       });
+    },
+    goAnchor(selector) {
+      console.log(selector)
+        let anchor = document.querySelector(selector)
+        console.log(anchor)
+        document.documentElement.scrollTop = anchor.offsetTop
     }
   }
 };
@@ -47,10 +52,12 @@ export default {
     padding: 16px;
     border-radius: 5px;
     box-shadow: 0 0 5px;
+    word-wrap: break-word;
+    background-color: #fff;
+    z-index: 999;
     a{
-      color: rgb(240, 116, 15);
+      color: rgb(4, 20, 24);
       &:hover{
-        color: red;
         text-decoration: underline;
       }
     }

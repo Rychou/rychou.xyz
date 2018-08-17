@@ -15,7 +15,7 @@ export default {
   $color:#33a3dc;
   *:not(.menu){
     font-family: ' -apple-system,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif';
-    transition: all .5s;
+    transition: all .3s;
   }
   h1{
     font-size: 24px;

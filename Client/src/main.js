@@ -16,6 +16,15 @@ Vue.directive('highlight',function (el) {
   })
 })
 
+Vue.directive('anchor',{
+    inserted : function(el,binding){
+      let anchor = el.querySelector('#anchor'+binding.value)
+    el.onclick = function(){
+      document.documentElement.scrollTop = anchor.offset().top
+    }
+    }
+  })
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

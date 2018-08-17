@@ -1,6 +1,5 @@
 var shell = require('shelljs');
 
-shell.echo('abc')
 if (shell.exec('npm run build').code !== 0) {
   shell.echo('Error: Git commit failed');
   shell.exit(1);
@@ -11,4 +10,4 @@ shell.cd('../../Rychou');
 
 shell.exec('git add .');
 shell.exec("git commit -m 'autocommit'")
-shell.exec('git push')
+shell.exec('git push origin master')

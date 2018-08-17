@@ -39,7 +39,10 @@
           </el-tooltip>
         </span>
       </el-footer>
-      <button @click="collapse">折叠</button>
+      <div @click="collapse" class="collapse">
+        <i class="iconfont icon-left" v-if="!isCollapse"></i>
+        <i class="iconfont icon-right" v-else></i>
+      </div>
     </el-menu>
 </template>
 
@@ -48,9 +51,17 @@ export default {
   data() {
     return {
       isCollapse: false,
-      menuFooter:[
-        {title:'Github',link:"http://github.com/xxxsimons",icon:'icon-github'},
-        {title:'思否',link:"https://segmentfault.com/u/xxxsimons",icon:'icon-sf'}
+      menuFooter: [
+        {
+          title: "Github",
+          link: "http://github.com/xxxsimons",
+          icon: "icon-github"
+        },
+        {
+          title: "思否",
+          link: "https://segmentfault.com/u/xxxsimons",
+          icon: "icon-sf"
+        }
       ]
     };
   },
@@ -60,9 +71,9 @@ export default {
     }
   },
   watch: {
-    isCollapse(newVal,old){
-      let width = newVal?64:200
-      this.$emit('test',width)
+    isCollapse(newVal, old) {
+      let width = newVal ? 64 : 200;
+      this.$emit("test", width);
     }
   }
 };
@@ -70,7 +81,7 @@ export default {
 
 <style scoped lang="scss">
 .menu {
-  &:not(.el-menu--collapse){
+  &:not(.el-menu--collapse) {
     width: 200px;
   }
   position: fixed;
@@ -97,7 +108,19 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+  }
+  .collapse {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 12px 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: rgba(41, 41, 41,1);
+    &:hover {
+      background-color: rgba(41, 41, 41,.8);
+    }
   }
 }
 
@@ -108,6 +131,8 @@ a {
 .iconfont {
   font-size: 1.5em;
   margin: 0 5px;
+  &{
+    margin-top: 5px;
+  }
 }
-
 </style>
