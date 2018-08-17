@@ -1,8 +1,8 @@
 <template>
-    <el-container>
-            <el-aside width="200px" class="aside"><my-menu></my-menu></el-aside>
-            <el-container>
-              <el-main><router-view style="width:80vw"></router-view></el-main>
+    <el-container class="container">
+            <el-aside :width="`${asideWidth}px`" class="aside" ><my-menu v-on:test="getAsideWidth"></my-menu></el-aside>
+            <el-container class="main">
+              <el-main style="transition:all .5s"><router-view style="width:80vw"></router-view></el-main>
             </el-container>
     </el-container>
 </template>
@@ -14,31 +14,37 @@ export default {
   components:{
     MyMenu,
     ArticleList
+  },
+  data(){
+    return{
+      asideWidth:200
+    }
+  },
+  methods: {
+    getAsideWidth(e){
+      this.asideWidth=e;
+    }
   }
 }
 </script>
 
-<style scoped>
-  .el-header,.el-main,.el-footer{
-    padding:0 200px;
-  }
-  .el-header, .el-footer {
-    background-color: #545c64;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
+<style scoped lang="scss">
+  .container{
+    display: flex;
+    .aside{
+      height: 100vh;
+    }
+    .main{
+      transition: all .5s
+    }
   }
   .el-container  .el-main {
     color: #333;
     padding: 30px;
-    margin-left: 200px;
     overflow: visible;
   }
   body > .el-container {
     margin-bottom: 40px;
   }
-  .aside{
-    position: fixed;
-    height: 100vh;
-  }
+
 </style>

@@ -12,8 +12,12 @@
             </div>
             <hr>
             <br>
-            <div class="article-body" v-html="compileMarkdown" v-highlight></div>
+            <div class="article-body" >
+              <div class="article-content" v-html="compileMarkdown" v-highlight></div>
+              <article-toc class="article-toc" :toc="toc"></article-toc>
+            </div>
         </div>
+        <div id="gitalk-container"></div> 
     </div>
     
 </template>
@@ -23,23 +27,23 @@ import axios from "@/axios";
 import marked from "marked";
 import { formatDate } from "@/utils.js";
 import "highlight.js/styles/vs2015.css";
-import 'gitalk/dist/gitalk.css'
-import Gitalk from 'gitalk'
+import ArticleToc from "./ArticleToc";
 
-var gitalk = new Gitalk({
-  clientID: 'e2bd0f9b2722aec0c6ad',
-  clientSecret: '326f591db410fc7db445b26f31bec3af25a6259d',
-  repo: 'GitHub repo',
-  owner: 'GitHub repo owner',
-  admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
-  id: location.pathname,      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
 export default {
   data() {
     return {
       article: {},
-      compileMarkdown: ""
+      compileMarkdown: "",
+      gitalk: new Gitalk({
+        clientID: "e2bd0f9b2722aec0c6ad",
+        clientSecret: "53835a03c25dd0886da48d665df21258f2b30177",
+        repo: "xxxsimons.github.io",
+        owner: "xxxsimons",
+        admin: ["xxxsimons"],
+        id: window.location.hash, // Ensure uniqueness and length less than 50
+        distractionFreeMode: false // Facebook-like distraction free mode
+      }),
+      toc:[]
     };
   },
   computed: {
@@ -49,14 +53,17 @@ export default {
         : this.article.tags.split(",");
     }
   },
-  beforeCreate() {
-    console.log(this.$route.params.id);
+  mounted() {
     axios
       .getArticleById(this.$route.params.id)
       .then(response => {
-        console.log(response);
-
         this.article = response.data;
+        document.title = response.data.title;
+        this.gitalk.title = response.data.title;
+        this.gitalk.render("gitalk-container");
+      })
+      .then(()=>{
+        //解析markdown
         this.compileMarkdown = marked(this.article.content, { sanitize: true });
       })
       .catch(err => {
@@ -64,10 +71,11 @@ export default {
       });
   },
   components: {
-    marked
+    marked,
+    ArticleToc
   },
   methods: {
-    formatDate
+    formatDate,
   }
 };
 </script>
@@ -83,32 +91,37 @@ $color: #33a3dc;
   .article-description {
     color: gray;
   }
-  pre{
-    code{
+  pre {
+    code {
       padding: 16px;
     }
   }
   .article-body {
-    img {
-      width: 20%;
-    }
-    a {
-      color: $color;
-    }
-    table {
-      border-collapse: collapse;
-    }
-    th {
-      background-color: $color;
-    }
-    td {
-      background-color: #eeeeee;
-      padding: 0 12px;
-    }
-    table,
-    th,
-    td {
-      border: 1px solid gray;
+    display: flex;
+    justify-content: space-between;
+    .article-content {
+      width: 60vw;
+      img {
+        width: 20%;
+      }
+      a {
+        color: $color;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th {
+        background-color: $color;
+      }
+      td {
+        background-color: #eeeeee;
+        padding: 0 12px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid gray;
+      }
     }
   }
 }
