@@ -8,22 +8,13 @@ import router from './router'
 import hljs from 'highlight.js'
 import store from './store'
 
-Vue.directive('highlight',function (el) {
+Vue.directive('highlight', function (el) {
   let blocks = el.querySelectorAll('pre code');
-  blocks.forEach((block)=>{
+  blocks.forEach((block) => {
     block.className += 'js'
     hljs.highlightBlock(block)
   })
 })
-
-Vue.directive('anchor',{
-    inserted : function(el,binding){
-      let anchor = el.querySelector('#anchor'+binding.value)
-    el.onclick = function(){
-      document.documentElement.scrollTop = anchor.offset().top
-    }
-    }
-  })
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
@@ -33,6 +24,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

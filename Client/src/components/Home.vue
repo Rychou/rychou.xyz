@@ -2,7 +2,9 @@
     <el-container class="container">
             <el-aside :width="`${asideWidth}px`" class="aside" ><my-menu v-on:test="getAsideWidth"></my-menu></el-aside>
             <el-container class="main">
-              <el-main style="transition:all .5s"><router-view style="width:80vw"></router-view></el-main>
+              <el-main style="transition:all .5s">
+                <router-view style="width:80vw"></router-view>
+              </el-main>
             </el-container>
     </el-container>
 </template>
