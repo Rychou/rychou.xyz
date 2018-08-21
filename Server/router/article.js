@@ -17,6 +17,7 @@ router.get('/getArticleById',async (ctx)=>{
     let sql = 'select * from article where id=?';
     let sqlLast = 'select id,title from article where id < ? order by id desc limit 1';
     let sqlNext = 'select id,title from article where id > ? order by id asc limit 1';
+    let sqlUpdateViews = 'update article set views = views + 1 where id = ?'
     let addParam = [ctx.query.id];
     let res;
     await mysql.query(sql,addParam)
@@ -33,13 +34,13 @@ router.get('/getArticleById',async (ctx)=>{
         .then(data=>{
             res.nextArticle = data[0];
             ctx.response.body = res;
+            return mysql.query(sqlUpdateViews,addParam)
+        })
+        .then(data=>{
+            console.log(data)
         })
         .catch(err=>console.error(err))
-        
 });
 
-// router.get('/getLastAndNext',async (ctx) =>{
-//     let sql = 'select id from acticle where id > '
-// })
 
 module.exports = router.routes()

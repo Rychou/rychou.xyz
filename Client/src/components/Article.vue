@@ -1,40 +1,52 @@
 <template>
-    <div>
-        <div class="article">
-            <h1>{{article.title}}</h1>
-            <div class="article-description">
-                <el-tag size="small" v-for="(tag,index) in tags" :key="index" style="margin-right:3px">{{tag}}</el-tag>
-                <span class="author" style="margin:0 10px;color:#2c86b3">{{article.author}}</span>
-                <span class="post-time">
-                    <i class="el-icon-date"></i>
-                    {{formatDate(article.create_time)}}
-                </span>
+  <div>
+    <div class="article">
+      <h1>{{article.title}}</h1>
+      <div class="article-description">
+        <el-tag size="small"
+                v-for="(tag,index) in tags"
+                :key="index"
+                style="margin-right:3px">{{tag}}</el-tag>
+        <span class="author"
+              style="margin:0 10px;color:#2c86b3">{{article.author}}</span>
+        <span class="post-time">
+          <i class="el-icon-date"></i>
+          {{formatDate(article.create_time)}}
+        </span>
+        <span class="views">
+          <i class="iconfont icon-views"></i>
+          {{article.views}}
+        </span>
+      </div>
+      <hr>
+      <br>
+      <div class="article-body">
+        <div class="article-content">
+          <div v-html="compileMarkdown"
+               v-highlight></div>
+          <div class="last-next">
+            <div class="last"
+                 v-if="article.lastArticle.title">
+              <router-link :to="'/article/'+article.lastArticle.id">
+                <i class="iconfont icon-left"></i>
+                上一篇：{{article.lastArticle.title}}
+              </router-link>
             </div>
-            <hr>
-            <br>
-            <div class="article-body">
-              <div class="article-content">
-                <div v-html="compileMarkdown" v-highlight></div>
-                <div class="last-next">
-                  <div class="last" v-if="article.lastArticle.title">
-                    <router-link :to="'/article/'+article.lastArticle.id">
-                      <i class="iconfont icon-left"></i>
-                      上一篇：{{article.lastArticle.title}}
-                    </router-link>
-                  </div>
-                  <div class="next" v-if="article.nextArticle.title">
-                    <router-link :to="'/article/'+article.nextArticle.id">
-                      下一篇：{{article.nextArticle.title}}
-                      <i class="iconfont icon-right"></i>
-                    </router-link>
-                  </div>
-                </div>
-              </div>
-              <article-directories :ArticleDirectories="directories" class="article-directories"></article-directories>
+            <div class="next"
+                 v-if="article.nextArticle.title">
+              <router-link :to="'/article/'+article.nextArticle.id">
+                下一篇：{{article.nextArticle.title}}
+                <i class="iconfont icon-right"></i>
+              </router-link>
             </div>
+          </div>
         </div>
-        <div id="gitalk-container"></div>
+        <article-directories :ArticleDirectories="directories"
+                             class="article-directories"></article-directories>
+      </div>
     </div>
+    <div id="gitalk-container"></div>
+  </div>
 </template>
 
 <script>
@@ -50,7 +62,7 @@ export default {
     marked,
     ArticleDirectories
   },
-  data() {
+  data () {
     return {
       article: {
         lastArticle: {},
@@ -70,22 +82,22 @@ export default {
     };
   },
   computed: {
-    tags() {
-      return typeof this.article.tags === "undefined"
+    tags () {
+      return Object.prototype.toString.call(this.article.tags) === "[object Undefined]"
         ? []
         : this.article.tags.split(",");
     }
   },
-  created() {
+  created () {
     this.initlizeData(this.$route.params.id);
   },
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate (to, from, next) {
     this.initlizeData(to.params.id);
     next();
   },
   methods: {
     formatDate,
-    initlizeData(id) {
+    initlizeData (id) {
       const data = {
         article: {
           lastArticle: {},
@@ -107,11 +119,11 @@ export default {
         .getArticleById(id)
         .then(response => {
           // 跳转后要将上一页和下一页数据重新初始化
-          Object.assign(this,data);
+          Object.assign(this, data);
           // 更新article
           Object.assign(this.article, response.data);
           // 更新目录
-          setTimeout(() => this.getdirectories(), 100);
+          setTimeout(() => this.getDirectories(), 100);
           // 设置标题
           document.title = response.data.title;
         })
@@ -122,7 +134,7 @@ export default {
           });
           document.documentElement.scrollTop = 0;
         })
-        .then(()=>{
+        .then(() => {
           //  确保组件复用后，更新id和title，重新渲染gitalk
           document.getElementById('gitalk-container').innerHTML = ""// 清空gitalk，为了重新渲染
           this.gitalk.options.id = window.location.hash;
@@ -132,7 +144,7 @@ export default {
           console.log(err);
         });
     },
-    getdirectories() {
+    getDirectories () {
       this.directories = [];
       let directories = document.querySelectorAll(".article-content h1");
       directories.forEach((element, index) => {
@@ -195,6 +207,9 @@ $color: #33a3dc;
       th,
       td {
         border: 1px solid gray;
+      }
+      img {
+        max-width: 100%;
       }
     }
   }
